@@ -296,6 +296,21 @@ class MidiHandler
      */
     MidiEvent PopEvent() { return event_q_.PopFront(); }
 
+
+    uint32_t GetAndClearClockCount()
+    {
+        uint32_t count    = midi_clock_count_;
+        midi_clock_count_ = 0;
+        return count;
+    }
+
+    bool GetAndClearStartFlag()
+    {
+        bool started         = midi_start_received_;
+        midi_start_received_ = false;
+        return started;
+    }
+
     /** SendMessage to cable 0
      * Send raw bytes as message
      * \param bytes Pointer to MIDI message bytes
@@ -326,6 +341,17 @@ class MidiHandler
     */
     void Parse(uint8_t byte)
     {
+        if(byte == 0xF8)
+        {
+            midi_clock_count_++;
+        }
+        // Detect Start to reset clock count
+        else if(byte == 0xFA)
+        {
+            midi_start_received_ = true;
+            midi_clock_count_    = 0;
+        }
+
         MidiEvent event;
         if(parser_.Parse(byte, &event))
         {
@@ -338,6 +364,8 @@ class MidiHandler
     Transport            transport_;
     MidiParser           parser_;
     FIFO<MidiEvent, 256> event_q_;
+    volatile uint32_t    midi_clock_count_    = 0;
+    volatile bool        midi_start_received_ = false;
 
     static void ParseCallback(uint8_t* data, size_t size, void* context)
     {
