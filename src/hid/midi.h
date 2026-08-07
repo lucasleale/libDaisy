@@ -310,6 +310,12 @@ class MidiHandler
         midi_start_received_ = false;
         return started;
     }
+    bool GetAndClearContinueFlag()
+    {
+        bool continued          = midi_continue_received_;
+        midi_continue_received_ = false;
+        return continued;
+    }
 
     /** SendMessage to cable 0
      * Send raw bytes as message
@@ -351,6 +357,11 @@ class MidiHandler
             midi_start_received_ = true;
             midi_clock_count_    = 0;
         }
+        // Continue
+        else if(byte == 0xFB)
+        {
+            midi_continue_received_ = true;
+        }
 
         MidiEvent event;
         if(parser_.Parse(byte, &event))
@@ -364,8 +375,9 @@ class MidiHandler
     Transport            transport_;
     MidiParser           parser_;
     FIFO<MidiEvent, 256> event_q_;
-    volatile uint32_t    midi_clock_count_    = 0;
-    volatile bool        midi_start_received_ = false;
+    volatile uint32_t    midi_clock_count_       = 0;
+    volatile bool        midi_start_received_    = false;
+    volatile bool        midi_continue_received_ = false;
 
     static void ParseCallback(uint8_t* data, size_t size, void* context)
     {
