@@ -311,7 +311,7 @@
     9, TUSB_DESC_INTERFACE, _itfnum, 0, 0, TUSB_CLASS_AUDIO,          \
         AUDIO_SUBCLASS_CONTROL, AUDIO_FUNC_PROTOCOL_CODE_UNDEF,       \
         _stridx, /* AC Header */                                      \
-        9, TUSB_DESC_CS_INTERFACE, AUDIO_CS_AC_INTERFACE_HEADER,      \
+        9, TUSB_DESC_CS_INTERFACE, AUDIO10_CS_AC_INTERFACE_HEADER,      \
         U16_TO_U8S_LE(0x0100), U16_TO_U8S_LE(0x0009), 1,              \
         (uint8_t)((_itfnum) + 1), /* MIDI Streaming (MS) Interface */ \
         9, TUSB_DESC_INTERFACE, (uint8_t)((_itfnum) + 1), 0, 2,       \

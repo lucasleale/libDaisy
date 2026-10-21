@@ -224,14 +224,12 @@ Middlewares/Third_Party/FatFs/src/ff_gen_drv.c \
 Middlewares/Third_Party/tinyusb/src/tusb.c \
 Middlewares/Third_Party/tinyusb/src/class/cdc/cdc_device.c \
 Middlewares/Third_Party/tinyusb/src/class/cdc/cdc_host.c \
-Middlewares/Third_Party/tinyusb/src/class/cdc/cdc_rndis_host.c \
 Middlewares/Third_Party/tinyusb/src/class/midi/midi_device.c \
 Middlewares/Third_Party/tinyusb/src/class/audio/audio_device.c \
 Middlewares/Third_Party/tinyusb/src/class/msc/msc_device.c \
 Middlewares/Third_Party/tinyusb/src/class/msc/msc_host.c \
 Middlewares/Third_Party/tinyusb/src/common/tusb_fifo.c \
 Middlewares/Third_Party/tinyusb/src/device/usbd.c \
-Middlewares/Third_Party/tinyusb/src/device/usbd_control.c \
 Middlewares/Third_Party/tinyusb/src/portable/synopsys/dwc2/dwc2_common.c \
 Middlewares/Third_Party/tinyusb/src/portable/synopsys/dwc2/dcd_dwc2.c \
 Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Src/usbh_msc_bot.c \
