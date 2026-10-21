@@ -142,8 +142,8 @@ extern "C"
 #define CFG_TUD_AUDIO_ENABLE_EP_IN                    1
 #define CFG_TUD_AUDIO_FUNC_1_N_BYTES_PER_SAMPLE_TX    2  // This value is not required by the driver, it parses this information from the descriptor once the alternate interface is set by the host - we use it for the setup
 #define CFG_TUD_AUDIO_FUNC_1_N_CHANNELS_TX            2  // This value is not required by the driver, it parses this information from the descriptor once the alternate interface is set by the host - we use it for the setup
-#define CFG_TUD_AUDIO_EP_SZ_IN                        TUD_AUDIO_EP_SIZE(CFG_TUD_AUDIO_FUNC_1_SAMPLE_RATE, CFG_TUD_AUDIO_FUNC_1_N_BYTES_PER_SAMPLE_TX, CFG_TUD_AUDIO_FUNC_1_N_CHANNELS_TX)
-
+// Full speed link: EP size per 1 ms frame
+#define CFG_TUD_AUDIO_EP_SZ_IN                        TUD_AUDIO_EP_SIZE(false, CFG_TUD_AUDIO_FUNC_1_SAMPLE_RATE, CFG_TUD_AUDIO_FUNC_1_N_BYTES_PER_SAMPLE_TX, CFG_TUD_AUDIO_FUNC_1_N_CHANNELS_TX)
 #define CFG_TUD_AUDIO_EP_IN_FLOW_CONTROL              1
 
 #define CFG_TUD_AUDIO_FUNC_1_EP_IN_SZ_MAX             CFG_TUD_AUDIO_EP_SZ_IN

@@ -21,7 +21,7 @@ struct UAC2State
     uint32_t samp_freq;
     uint32_t blocksize;
     uint8_t  clk_valid;
-    audio_control_range_4_n_t(1) sampleFreqRng; // Sample frequency range state
+    audio20_control_range_4_n_t(1) sampleFreqRng; // Sample frequency range state
 };
 
 static UAC2State uac2_state;
@@ -100,7 +100,7 @@ extern "C"
         (void)pBuff;
 
         // We do not support any set range requests here, only current value requests
-        TU_VERIFY(p_request->bRequest == AUDIO_CS_REQ_CUR);
+        TU_VERIFY(p_request->bRequest == AUDIO20_CS_REQ_CUR);
 
         // Page 91 in UAC2 specification
         uint8_t channelNum = TU_U16_LOW(p_request->wValue);
@@ -123,7 +123,7 @@ extern "C"
         (void)pBuff;
 
         // We do not support any set range requests here, only current value requests
-        TU_VERIFY(p_request->bRequest == AUDIO_CS_REQ_CUR);
+        TU_VERIFY(p_request->bRequest == AUDIO20_CS_REQ_CUR);
 
         // Page 91 in UAC2 specification
         uint8_t channelNum = TU_U16_LOW(p_request->wValue);
@@ -151,7 +151,7 @@ extern "C"
         uint8_t entityID = TU_U16_HIGH(p_request->wIndex);
 
         // We do not support any set range requests here, only current value requests
-        TU_VERIFY(p_request->bRequest == AUDIO_CS_REQ_CUR);
+        TU_VERIFY(p_request->bRequest == AUDIO20_CS_REQ_CUR);
 
         // If request is for our feature unit
         if(entityID == 2)
@@ -217,14 +217,14 @@ extern "C"
         {
             switch(ctrlSel)
             {
-                case AUDIO_TE_CTRL_CONNECTOR:
+                case AUDIO20_TE_CTRL_CONNECTOR:
                 {
                     // The terminal connector control only has a get request with only the CUR attribute.
-                    audio_desc_channel_cluster_t ret;
+                    audio20_desc_channel_cluster_t ret;
 
                     // Those are dummy values for now
                     ret.bNrChannels     = 1;
-                    ret.bmChannelConfig = (audio_channel_config_t)0;
+                    ret.bmChannelConfig = (audio20_channel_config_t)0;
                     ret.iChannelNames   = 0;
 
                     // TU_LOG2("    Get terminal connector\r\n");
@@ -251,11 +251,11 @@ extern "C"
         {
             switch(ctrlSel)
             {
-                case AUDIO_CS_CTRL_SAM_FREQ:
+                case AUDIO20_CS_CTRL_SAM_FREQ:
                     // channelNum is always zero in this case
                     switch(p_request->bRequest)
                     {
-                        case AUDIO_CS_REQ_CUR:
+                        case AUDIO20_CS_REQ_CUR:
                             // TU_LOG2("    Get Sample Freq.\r\n");
                             // Buffered control transfer is needed for IN flow control to work
                             return tud_audio_buffer_and_schedule_control_xfer(
@@ -264,7 +264,7 @@ extern "C"
                                 &uac2_state.samp_freq,
                                 sizeof(uac2_state.samp_freq));
 
-                        case AUDIO_CS_REQ_RANGE:
+                        case AUDIO20_CS_REQ_RANGE:
                             // TU_LOG2("    Get Sample Freq. range\r\n");
                             return tud_control_xfer(
                                 rhport,
@@ -277,7 +277,7 @@ extern "C"
                     }
                     break;
 
-                case AUDIO_CS_CTRL_CLK_VALID:
+                case AUDIO20_CS_CTRL_CLK_VALID:
                     // Only cur attribute exists for this request
                     // TU_LOG2("    Get Sample Freq. valid\r\n");
                     return tud_control_xfer(rhport,

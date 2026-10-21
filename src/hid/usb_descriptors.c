@@ -26,7 +26,7 @@
 #include "bsp/board_api.h"
 #include "tusb.h"
 #include "usb_midi_multi.h"
-
+#include "stm32h7xx_hal.h"
 /* A combination of interfaces must have a unique product id, since PC will save device driver after the first plug.
  * Same VID/PID with different interface e.g MSC (first), then CDC (later) will possibly cause system error on PC.
  *
@@ -105,6 +105,15 @@ tusb_desc_device_t const desc_device_1 = {
 
     .bNumConfigurations = 0x01,
 };
+
+// Unique serial for the USB string descriptor, from the STM32 96-bit UID
+size_t board_get_unique_id(uint8_t id[], size_t max_len)
+{
+    const uint32_t uid[3] = {HAL_GetUIDw0(), HAL_GetUIDw1(), HAL_GetUIDw2()};
+    size_t         len    = sizeof(uid) < max_len ? sizeof(uid) : max_len;
+    memcpy(id, uid, len);
+    return len;
+}
 
 // Invoked when received GET DEVICE DESCRIPTOR
 // Application return pointer to descriptor
