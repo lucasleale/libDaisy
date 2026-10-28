@@ -147,7 +147,8 @@ extern "C"
 #define CFG_TUD_AUDIO_EP_IN_FLOW_CONTROL              1
 
 #define CFG_TUD_AUDIO_FUNC_1_EP_IN_SZ_MAX             CFG_TUD_AUDIO_EP_SZ_IN
-#define CFG_TUD_AUDIO_FUNC_1_EP_IN_SW_BUF_SZ          (TUD_OPT_HIGH_SPEED ? 32 : 4) * CFG_TUD_AUDIO_EP_SZ_IN // Example write FIFO every 1ms, so it should be 8 times larger for HS device
+// 8 packets: ~4 ms threshold with ~4 ms margin each side for 32 sample callback bursts
+#define CFG_TUD_AUDIO_FUNC_1_EP_IN_SW_BUF_SZ          8 * CFG_TUD_AUDIO_EP_SZ_IN // Example write FIFO every 1ms, so it should be 8 times larger for HS device
 
 #ifdef __cplusplus
 }
