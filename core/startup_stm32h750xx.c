@@ -1529,6 +1529,7 @@ void SystemInit();
 void __libc_init_array();
 int main();
 
+extern void *_sdtcmram_bss, *_edtcmram_bss;
 extern void *_sidata, *_sdata, *_edata;
 extern void *_sbss, *_ebss;
 
@@ -1545,6 +1546,10 @@ void __attribute__((noreturn)) Reset_Handler()
 		*pDest = *pSource;
 
 	for (pDest = &_sbss; pDest != &_ebss; pDest++)
+		*pDest = 0;
+
+	// Zero DTCM bss so objects placed there start like regular .bss
+	for (pDest = &_sdtcmram_bss; pDest < &_edtcmram_bss; pDest++)
 		*pDest = 0;
 
 	#ifndef BOOT_APP
